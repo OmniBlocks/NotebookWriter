@@ -7,14 +7,11 @@ on:
       - master
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -30,16 +27,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '16'
-          cache: 'npm'
 
       - name: Delete old package-lock.json
         run: rm -f package-lock.json
-        
+
       - name: Configure git to use HTTPS instead of SSH
         run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
-        
+
+      - name: Upgrade abcjs to v6 (fixes MIDI.js issue)
+        run: npm install abcjs@^6.0.0 --legacy-peer-deps
+
       - name: Install dependencies
         run: npm install --legacy-peer-deps
+
+      - name: Replace node-sass with sass (dart-sass)
+        run: |
+          npm uninstall node-sass
+          npm install sass --save-dev --legacy-peer-deps
 
       - name: Build
         run: npm run build
