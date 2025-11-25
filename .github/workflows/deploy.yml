@@ -34,7 +34,10 @@ jobs:
 
       - name: Delete old package-lock.json
         run: rm -f package-lock.json
-
+        
+      - name: Configure git to use HTTPS instead of SSH
+        run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+        
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
