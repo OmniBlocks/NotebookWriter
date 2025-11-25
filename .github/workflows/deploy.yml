@@ -45,6 +45,12 @@ jobs:
           npm uninstall node-sass --legacy-peer-deps
           npm install sass --save-dev --legacy-peer-deps
 
+      - name: Fix publicPath for GitHub Pages
+        run: |
+          sed -i "s|assetsPublicPath: '/',|assetsPublicPath: '/NotebookWriter/',|g" config/index.js
+          echo "=== Updated config/index.js ==="
+          grep "assetsPublicPath" config/index.js
+
       - name: Patch webpack config to disable UglifyJs minification
         run: |
           sed -i '/new webpack.optimize.UglifyJsPlugin/,/}),/d' build/webpack.prod.conf.js
