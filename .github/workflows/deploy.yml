@@ -42,7 +42,7 @@ jobs:
 
       - name: Replace node-sass with sass (dart-sass)
         run: |
-          npm uninstall node-sass
+          npm uninstall node-sass --legacy-peer-deps
           npm install sass --save-dev --legacy-peer-deps
 
       - name: Build
