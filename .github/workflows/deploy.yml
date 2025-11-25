@@ -47,9 +47,16 @@ jobs:
 
       - name: Fix publicPath for GitHub Pages
         run: |
-          sed -i "s|assetsPublicPath: '/',|assetsPublicPath: '/NotebookWriter/',|g" config/index.js
-          echo "=== Updated config/index.js ==="
+          # Fix config/index.js
+          sed -i "s|assetsPublicPath: '/'|assetsPublicPath: '/NotebookWriter/'|g" config/index.js
+          
+          # Fix OfflinePlugin externals in webpack.prod.conf.js
+          sed -i "s|externals: \['/'\, '/app', '/oauth2/callback'\]|externals: ['/NotebookWriter/', '/NotebookWriter/app', '/NotebookWriter/oauth2/callback']|g" build/webpack.prod.conf.js
+          
+          echo "=== Verification: config/index.js publicPath ==="
           grep "assetsPublicPath" config/index.js
+          echo "=== Verification: OfflinePlugin externals ==="
+          grep "externals:" build/webpack.prod.conf.js
 
       - name: Patch webpack config to disable UglifyJs minification
         run: |
