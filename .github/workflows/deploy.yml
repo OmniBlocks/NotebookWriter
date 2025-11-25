@@ -31,6 +31,8 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
+      - name: Configure git to use HTTPS instead of SSH
+        run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
 
       - name: Install dependencies
         run: npm ci
