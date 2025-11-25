@@ -35,10 +35,10 @@ jobs:
         run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
 
       - name: Upgrade abcjs to v6 (fixes MIDI.js issue)
-        run: npm install abcjs@^6.0.0 --legacy-peer-deps
+        run: npm install abcjs@^6.0.0 --legacy-peer-deps --ignore-scripts
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
+      - name: Install all dependencies without running build scripts
+        run: npm install --legacy-peer-deps --ignore-scripts
 
       - name: Replace node-sass with sass (dart-sass)
         run: |
